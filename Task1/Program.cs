@@ -5,52 +5,42 @@ m = 3, n = 4.
 8 7,8 -7,1 9
 */
 
-//Алгоритм рекурсии
-
-string [,] table = new string [2, 5];
-// String.Empty
-// table[0,0] table [0,1] table [0,2] table [0,3] table [0,4]
-// table[1,0] table [1,1] table [1,2] table [1,3] table [1,4]
-
-/*table[1, 2] = "слово";
-for (int rows = 0; rows < 2; rows++)
+//метод для ввода количества строк / столбцов 
+int GetDemension(string message)
 {
-    for (int columns = 0; columns < 5; columns++)
-    {
-        Console.WriteLine($"-{table[rows, columns]}-");
-    }
-}
-*/
-
-
-
-void PrintArray(int[,] matr)
-{
-    for (int i = 0; i < matr.GetLength(0); i++)
-    {
-        for (int j = 0; j < matr.GetLength(1); j++)
-        {
-            Console.Write($"{matr[i, j]} ");
-        }
-    Console.WriteLine();
-    }
-
+    Console.WriteLine(message);
+    int demension = int.Parse(Console.ReadLine());
+    return demension;
 }
 
-void FillArray(int [,] matr)
+//Инициализируем создание матрицы по заданному пользователем количеству строк и столбцов и заполняем рандоными вещественными числами
+double[,] InitMatrix(int firstDemension, int secondDemension)
 {
-    for (int i = 0; i < matr.GetLength(0); i++)
+    double[,] matrix = new double[firstDemension, secondDemension];
+    Random rnd = new Random();
+    for (int i = 0; i < firstDemension; i++)
     {
-        for (int j = 0; j < matr.GetLength(1); j++)
-        {
-            matr[i, j] = new Random ().Next(1,10);// [1;10]
-        }
+        for (int j = 0; j < secondDemension; j++)
+            matrix[i, j] = rnd.NextDouble()*10;
+    }
+    return matrix;
+}
+
+//Метод вывода на консоль заполненной матрицы (с двумя знаками после запятой)
+void PrintMatrix(double[,] matrix)
+{
+    Console.WriteLine("Матрица, заполненная вещественными числами: ");
+    for (int i = 0; i < matrix.GetLength(0); i++)
+    {
+        for (int j = 0; j < matrix.GetLength(1); j++)
+            Console.Write($"{(double)matrix[i, j]:N2} ");
+        Console.WriteLine();
     }
 }
 
-int [,] matrix = new int [3, 4];
-
-PrintArray(matrix);
-FillArray(matrix);
-Console.WriteLine();
-PrintArray(matrix);
+//Ввод количества строк и столбцов для создания матрицы
+int firstDemension = GetDemension("Введите длину для первого разряда матрицы:");
+int secondDemension = GetDemension("Введите длину для второго разряда матрицы:");
+double[,] resultMatrix = InitMatrix(firstDemension, secondDemension);
+//Выводим на консоль результат (заполненная вещественными числами матрица)
+PrintMatrix(resultMatrix);
